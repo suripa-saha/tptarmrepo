@@ -1,0 +1,132 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "type": "string"
+    },
+    "PolicyXMLBaseUrl": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "description": "",
+        "authenticationSettings": {
+          "subscriptionKeyRequired": false
+        },
+        "subscriptionKeyParameterNames": {
+          "header": "Ocp-Apim-Subscription-Key",
+          "query": "subscription-key"
+        },
+        "apiRevision": "1",
+        "apiVersion": "v1",
+        "isCurrent": true,
+        "apiVersionSetId": "[concat(resourceId('Microsoft.ApiManagement/service', parameters('ApimServiceName')), '/apiVersionSets/60d321faebbb24a834f7b996')]",
+        "subscriptionRequired": true,
+        "displayName": "Test API Suripa",
+        "path": "testsuripa",
+        "protocols": [
+          "https"
+        ]
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/test-api-suripa')]",
+      "type": "Microsoft.ApiManagement/service/apis",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "",
+        "request": {
+          "queryParameters": [],
+          "headers": [],
+          "representations": []
+        },
+        "responses": [],
+        "displayName": "test1",
+        "method": "GET",
+        "urlTemplate": "/test1"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/test-api-suripa/test1')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'test-api-suripa')]"
+      ]
+    },
+    {
+      "properties": {
+        "alwaysLog": "allErrors",
+        "loggerId": "/subscriptions/1ef34716-7fcd-4ba4-9bb8-efc8169e841b/resourceGroups/TPT-CARGO-DEV/providers/Microsoft.ApiManagement/service/tpt-apim-cargo-dev/loggers/cargodevapim-insights",
+        "httpCorrelationProtocol": "Legacy",
+        "verbosity": "verbose",
+        "logClientIp": true,
+        "sampling": {
+          "samplingType": "fixed",
+          "percentage": 100.0
+        },
+        "frontend": {
+          "request": {
+            "headers": [
+              "x-cc-trace-id",
+              "Authorization"
+            ],
+            "body": {
+              "bytes": 8192
+            }
+          },
+          "response": {
+            "headers": [
+              "x-cc-trace-id",
+              "Authorization"
+            ],
+            "body": {
+              "bytes": 8192
+            }
+          }
+        },
+        "backend": {
+          "request": {
+            "headers": [
+              "x-cc-trace-id",
+              "Authorization"
+            ],
+            "body": {
+              "bytes": 8192
+            }
+          },
+          "response": {
+            "headers": [
+              "x-cc-trace-id",
+              "Authorization"
+            ],
+            "body": {
+              "bytes": 8192
+            }
+          }
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/applicationinsights')]",
+      "type": "Microsoft.ApiManagement/service/diagnostics",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    },
+    {
+      "properties": {
+        "loggerId": "/subscriptions/1ef34716-7fcd-4ba4-9bb8-efc8169e841b/resourceGroups/TPT-CARGO-DEV/providers/Microsoft.ApiManagement/service/tpt-apim-cargo-dev/loggers/azuremonitor",
+        "logClientIp": true,
+        "sampling": {
+          "samplingType": "fixed",
+          "percentage": 100.0
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/azuremonitor')]",
+      "type": "Microsoft.ApiManagement/service/diagnostics",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    }
+  ]
+}

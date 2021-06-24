@@ -1,0 +1,67 @@
+<!--
+    IMPORTANT:
+    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.
+    - Only the <forward-request> policy element can appear within the <backend> section element.
+    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.
+    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.
+    - To add a policy position the cursor at the desired insertion point and click on the round button associated with the policy.
+    - To remove a policy, delete the corresponding policy statement from the policy document.
+    - Policies are applied in the order of their appearance, from the top down.
+-->
+<policies>
+	<inbound>
+		<cors allow-credentials="true">
+			<allowed-origins>
+				<origin>https://tptcargodevsa.z1.web.core.windows.net/</origin>
+				<origin>https://tptcargodevadminconsole.z1.web.core.windows.net/</origin>
+				<origin>http://localhost:3000/</origin>
+				<origin>https://cargoconnectdev.azureedge.net/</origin>
+				<origin>https://ccadminconsoledev.azureedge.net/</origin>
+				<origin>https://login.microsoftonline.com/</origin>
+				<origin>https://tptcargdevb2c.b2clogin.com/</origin>
+				<origin>https://appcontentdev.azureedge.net/</origin>
+				<origin>https://tpt-apim-cargo-dev.developer.azure-api.net</origin>
+				<origin>https://editor.swagger.io/</origin>
+				<origin>https://www.dev-cargoconnect.transnetportterminals.net</origin>
+				<origin>https://www.dev-cargoconnectadmin.transnetportterminals.net</origin>
+			</allowed-origins>
+			<allowed-methods>
+				<method>*</method>
+			</allowed-methods>
+			<allowed-headers>
+				<header>*</header>
+			</allowed-headers>
+			<expose-headers>
+				<header>*</header>
+			</expose-headers>
+		</cors>
+	</inbound>
+	<backend />
+	<outbound />
+	<on-error>
+		<set-header name="ErrorSource" exists-action="override">
+			<value>@(context.LastError.Source)</value>
+		</set-header>
+		<set-header name="ErrorReason" exists-action="override">
+			<value>@(context.LastError.Reason)</value>
+		</set-header>
+		<set-header name="ErrorMessage" exists-action="override">
+			<value>@(context.LastError.Message)</value>
+		</set-header>
+		<set-header name="ErrorScope" exists-action="override">
+			<value>@(context.LastError.Scope)</value>
+		</set-header>
+		<set-header name="ErrorSection" exists-action="override">
+			<value>@(context.LastError.Section)</value>
+		</set-header>
+		<set-header name="ErrorPath" exists-action="override">
+			<value>@(context.LastError.Path)</value>
+		</set-header>
+		<set-header name="ErrorPolicyId" exists-action="override">
+			<value>@(context.LastError.PolicyId)</value>
+		</set-header>
+		<set-header name="ErrorStatusCode" exists-action="override">
+			<value>@(context.Response.StatusCode.ToString())</value>
+		</set-header>
+	</on-error>
+</policies>
