@@ -15,15 +15,10 @@
 				<origin>https://tptcargodevsa.z1.web.core.windows.net/</origin>
 				<origin>https://tptcargodevadminconsole.z1.web.core.windows.net/</origin>
 				<origin>http://localhost:3000/</origin>
-				<origin>https://cargoconnectdev.azureedge.net/</origin>
-				<origin>https://ccadminconsoledev.azureedge.net/</origin>
-				<origin>https://login.microsoftonline.com/</origin>
-				<origin>https://tptcargdevb2c.b2clogin.com/</origin>
-				<origin>https://appcontentdev.azureedge.net/</origin>
-				<origin>https://tpt-apim-cargo-dev.developer.azure-api.net</origin>
-				<origin>https://editor.swagger.io/</origin>
-				<origin>https://www.dev-cargoconnect.transnetportterminals.net</origin>
-				<origin>https://www.dev-cargoconnectadmin.transnetportterminals.net</origin>
+				<origin>https://cargoconnecttest.azureedge.net/</origin>
+				<origin>https://ccadminconsoletest.azureedge.net/</origin>
+				<origin>https://tptcargotestb2c.b2clogin.com/</origin>
+				<origin>https://appcontenttest.azureedge.net/</origin>
 			</allowed-origins>
 			<allowed-methods>
 				<method>*</method>
@@ -36,7 +31,9 @@
 			</expose-headers>
 		</cors>
 	</inbound>
-	<backend />
+	<backend>
+		<forward-request />
+	</backend>
 	<outbound />
 	<on-error>
 		<set-header name="ErrorSource" exists-action="override">

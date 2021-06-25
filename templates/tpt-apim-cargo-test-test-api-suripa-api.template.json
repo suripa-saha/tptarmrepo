@@ -23,10 +23,10 @@
         "apiRevision": "1",
         "apiVersion": "v1",
         "isCurrent": true,
-        "apiVersionSetId": "[concat(resourceId('Microsoft.ApiManagement/service', parameters('ApimServiceName')), '/apiVersionSets/60d321faebbb24a834f7b996')]",
+        "apiVersionSetId": "[concat(resourceId('Microsoft.ApiManagement/service', parameters('ApimServiceName')), '/apiVersionSets/60d4c3f205ba64027fb10ebd')]",
         "subscriptionRequired": true,
-        "displayName": "Test API Suripa",
-        "path": "testsuripa",
+        "displayName": "test-api-suripa",
+        "path": "testapisuripa",
         "protocols": [
           "https"
         ]
@@ -60,7 +60,7 @@
     {
       "properties": {
         "alwaysLog": "allErrors",
-        "loggerId": "/subscriptions/1ef34716-7fcd-4ba4-9bb8-efc8169e841b/resourceGroups/TPT-CARGO-DEV/providers/Microsoft.ApiManagement/service/tpt-apim-cargo-dev/loggers/cargodevapim-insights",
+        "loggerId": "/subscriptions/1ef34716-7fcd-4ba4-9bb8-efc8169e841b/resourceGroups/TPT-AKS-RG/providers/Microsoft.ApiManagement/service/tpt-apim-cargo-test/loggers/cargotestapim-insights",
         "httpCorrelationProtocol": "Legacy",
         "verbosity": "verbose",
         "logClientIp": true,
@@ -71,8 +71,8 @@
         "frontend": {
           "request": {
             "headers": [
-              "x-cc-trace-id",
-              "Authorization"
+              "Authorization",
+              "x-cc-trace-id"
             ],
             "body": {
               "bytes": 8192
@@ -80,8 +80,8 @@
           },
           "response": {
             "headers": [
-              "x-cc-trace-id",
-              "Authorization"
+              "Authorization",
+              "x-cc-trace-id"
             ],
             "body": {
               "bytes": 8192
@@ -91,8 +91,8 @@
         "backend": {
           "request": {
             "headers": [
-              "x-cc-trace-id",
-              "Authorization"
+              "Authorization",
+              "x-cc-trace-id"
             ],
             "body": {
               "bytes": 8192
@@ -100,8 +100,8 @@
           },
           "response": {
             "headers": [
-              "x-cc-trace-id",
-              "Authorization"
+              "Authorization",
+              "x-cc-trace-id"
             ],
             "body": {
               "bytes": 8192
@@ -116,7 +116,7 @@
     },
     {
       "properties": {
-        "loggerId": "/subscriptions/1ef34716-7fcd-4ba4-9bb8-efc8169e841b/resourceGroups/TPT-CARGO-DEV/providers/Microsoft.ApiManagement/service/tpt-apim-cargo-dev/loggers/azuremonitor",
+        "loggerId": "/subscriptions/1ef34716-7fcd-4ba4-9bb8-efc8169e841b/resourceGroups/TPT-AKS-RG/providers/Microsoft.ApiManagement/service/tpt-apim-cargo-test/loggers/azuremonitor",
         "logClientIp": true,
         "sampling": {
           "samplingType": "fixed",

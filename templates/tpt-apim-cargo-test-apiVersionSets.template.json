@@ -12,10 +12,10 @@
   "resources": [
     {
       "properties": {
-        "displayName": "Test API Suripa",
+        "displayName": "test-api-suripa",
         "versioningScheme": "Segment"
       },
-      "name": "[concat(parameters('ApimServiceName'), '/60d321faebbb24a834f7b996')]",
+      "name": "[concat(parameters('ApimServiceName'), '/60d4c3f205ba64027fb10ebd')]",
       "type": "Microsoft.ApiManagement/service/apiVersionSets",
       "apiVersion": "2021-01-01-preview"
     }

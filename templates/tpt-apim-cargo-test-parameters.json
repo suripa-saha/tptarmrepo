@@ -1,0 +1,23 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "value": "tpt-apim-cargo-dev"
+    },
+    "LinkedTemplatesBaseUrl": {
+      "value": "https://tptcargotestsa.blob.core.windows.net/templatessuripa"
+    },
+    "PolicyXMLBaseUrl": {
+      "value": "https://tptcargotestsa.blob.core.windows.net/templatessuripa"
+    },
+    "NamedValues": {
+      "value": {
+        "Property60936e5bb2bd770384f387a0": null,
+        "InvalidAppVersions": "iOSv1.0.3, androidv1.0.3",
+        "Property60d41c41b2bd770738d5599e": null
+      }
+    }
+  },
+  "resources": []
+}
