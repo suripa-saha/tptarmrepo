@@ -1,0 +1,2508 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "type": "string"
+    },
+    "PolicyXMLBaseUrl": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "description": "TPT-CargoConnect API Documentation, updated subscription history object",
+        "authenticationSettings": {
+          "subscriptionKeyRequired": false
+        },
+        "subscriptionKeyParameterNames": {
+          "header": "Ocp-Apim-Subscription-Key",
+          "query": "subscription-key"
+        },
+        "apiRevision": "1",
+        "apiVersion": "v1",
+        "isCurrent": true,
+        "apiVersionSetId": "[concat(resourceId('Microsoft.ApiManagement/service', parameters('ApimServiceName')), '/apiVersionSets/6095480f50d5bf825dc495b6')]",
+        "subscriptionRequired": false,
+        "displayName": "CC End User Management API suripa",
+        "serviceUrl": "http://102.133.194.87:8080/tpt/cargoconnect/v1",
+        "path": "cc-user-management",
+        "protocols": [
+          "https"
+        ]
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api')]",
+      "type": "Microsoft.ApiManagement/service/apis",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    },
+    {
+      "properties": {
+        "contentType": "application/vnd.ms-azure-apim.swagger.definitions+json",
+        "document": {
+          "value": "{\"userId\":{\"type\":\"object\",\"description\":\"userId could be either email or phone number\",\"properties\":{\"employeeId\":{\"type\":\"integer\",\"example\":1234567,\"description\":\"TPT Employee Id, relevant only during Login and not Registration\"},\"userEmail\":{\"type\":\"string\",\"example\":\"abc@tpt.com\",\"description\":\"email id with tpt.com domain\"},\"userMobile\":{\"type\":\"integer\",\"example\":1234567890,\"description\":\"phone with country code (+27)\"}}},\"userLoginSuccess\":{\"type\":\"object\",\"description\":\"Response of /user/login for Success Response\",\"properties\":{\"status\":{\"type\":\"string\",\"example\":\"valid\",\"description\":\"This field shows about the status of subscription whether valid or invalid\",\"enum\":[\"valid\",\"invalid\"]},\"userType\":{\"type\":\"string\",\"example\":\"Internal or Preview/Premium\",\"description\":\"Shows whether its a Preview or Premium\"},\"company\":{\"type\":\"string\",\"example\":\"TPT/ Mr.Price\",\"description\":\"Company user belongs to\"},\"lastLogin\":{\"type\":\"string\",\"example\":\"Fri Nov 16 11:36:03 PKT 2018\",\"description\":\"Represents last login details\"},\"creationDate\":{\"type\":\"string\",\"example\":\"2018-09-30T19:00:00Z\",\"description\":\"Shows the date when user is created\"},\"pwdExpiryDate\":{\"type\":\"string\",\"example\":\"2018-09-30T19:00:00Z\",\"description\":\"Shows the date when user password will get expired\"},\"subscriptionExpiryDate\":{\"type\":\"string\",\"example\":\"2018-09-30T19:00:00Z\",\"description\":\"Shows the date when premium user subscription will get expired\"},\"numberOfEmployees\":{\"type\":\"integer\",\"example\":10,\"description\":\"For future use\"},\"active\":{\"type\":\"boolean\",\"example\":true,\"description\":\"Shows whether a profile is active or not by assigning true or false\",\"enum\":[true,false]},\"userDetails\":{\"$ref\":\"#/definitions/userDetailBrief\"}}},\"userBaseProfile\":{\"type\":\"object\",\"description\":\"Details of New User Registration - CnF agent, Driver, Cargo-Owner\",\"properties\":{\"user\":{\"$ref\":\"#/definitions/userId\"},\"userName\":{\"type\":\"string\",\"example\":\"John Doe\",\"description\":\"Represents the name of the logged in user\"},\"firstName\":{\"type\":\"string\",\"example\":\"John\",\"description\":\"Represents the name of the logged in user\"},\"lastName\":{\"type\":\"string\",\"example\":\"Doe\",\"description\":\"Represents the name of the logged in user\"},\"userType\":{\"type\":\"string\",\"example\":\"Internal or Preview/Premium\",\"description\":\"Represents the type whether its Internal TPT or External\",\"enum\":[\"internal\",\"preview\",\"premium\"]},\"profilePicture\":{\"type\":\"string\",\"example\":\"1@#(&CUFER92327rijefe89542350163438\",\"description\":\"binary document\"}}},\"userRoles\":{\"type\":\"object\",\"description\":\"Array of roles\",\"properties\":{\"name\":{\"type\":\"string\",\"example\":\"Administrator\",\"description\":\"Name of the role that is assigned to the logged in user\"},\"type\":{\"type\":\"string\",\"example\":\"Requestor\",\"description\":\"Provides details about the roles of logged in user\"},\"permissions\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/userPermissions\"}}}},\"userRolesArray\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/userRoles\"}},\"userPermissions\":{\"type\":\"object\",\"description\":\"Array of permissions\",\"properties\":{\"function\":{\"type\":\"string\",\"example\":\"Advertisement Finance\",\"description\":\"Entity shows which module(s) permissions are granted to the logged in user to perform operations on. '*' means all modules(Super user access)\"},\"method\":{\"type\":\"string\",\"example\":\"view, edit or *\",\"description\":\"Method shows which operation to perform on the assigned module(s)\"}}},\"unAuthorizedRes\":{\"type\":\"object\",\"description\":\"Response of API if token is not attached\",\"properties\":{\"timestamp\":{\"type\":\"number\",\"example\":827354823232,\"description\":\"Time and date can be extracted using data returned in timestamp\"},\"status\":{\"type\":\"integer\",\"example\":401,\"description\":\"Shows the http status code i:e '401' for unAuthorize\"},\"error\":{\"type\":\"string\",\"example\":\"Unauthorized\",\"description\":\"Shows the status of Unauthorize when token will not be provided to each API call\"},\"message\":{\"type\":\"string\",\"example\":\"No message available\",\"description\":\"Shows the Message about error if any\"},\"path\":{\"type\":\"string\",\"example\":\"/user/resource\",\"description\":\"Shows the url path of called API\"}}},\"passwordReset\":{\"type\":\"object\",\"description\":\"Password reset details\",\"properties\":{\"user\":{\"$ref\":\"#/definitions/userId\"},\"password\":{\"$ref\":\"#/definitions/passwordObj\"}}},\"passwordObj\":{\"type\":\"object\",\"description\":\"Password reset details\",\"properties\":{\"password\":{\"type\":\"string\",\"example\":\"Welcome@123\",\"description\":\"Need only during Input and not in Response object. Password to conform to TPT Cargo-Connect Password policy\"}}},\"userRegistration\":{\"type\":\"object\",\"description\":\"Sign-up or Registration details\",\"properties\":{\"userInfo\":{\"$ref\":\"#/definitions/userBaseProfile\"},\"passwordInfo\":{\"$ref\":\"#/definitions/passwordObj\"}}},\"userDetailBrief\":{\"type\":\"object\",\"description\":\"Details of agent or supervisor or administrator\",\"properties\":{\"id\":{\"type\":\"integer\",\"example\":12345,\"description\":\"Unique id of the logged in user\"},\"isSuperAdmin\":{\"type\":\"boolean\",\"example\":\"true or false\",\"description\":\"Flag to indicate if user is Super Admin role\",\"enum\":[true,false]},\"newNotifications\":{\"type\":\"boolean\",\"example\":\"true or false\",\"description\":\"Flag to indicate if user has new notifications\",\"enum\":[true,false]},\"userDetails\":{\"$ref\":\"#/definitions/userBaseProfile\"},\"roles\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/userRoles\"}},\"audit\":{\"$ref\":\"#/definitions/auditDetail\"}}},\"userProfile\":{\"type\":\"object\",\"description\":\"Details of agent or supervisor or administrator\",\"properties\":{\"userDetails\":{\"$ref\":\"#/definitions/userBaseProfile\"},\"profileRoles\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/profileRole\"}}}},\"loginProfile\":{\"properties\":{\"firstName\":{\"type\":\"string\",\"example\":\"John\",\"description\":\"Represents the first name of the logged in user\"},\"lastName\":{\"type\":\"string\",\"example\":\"Doe\",\"description\":\"Represents the last name of the logged in user\"},\"userEmail\":{\"type\":\"string\",\"example\":\"John.Doe@xyz.com\",\"description\":\"Represents the email of the logged in user\"},\"companyName\":{\"type\":\"string\",\"example\":\"Doe\",\"description\":\"Represents the company name of the logged in user\"}}},\"addressDetail\":{\"properties\":{\"addressType\":{\"description\":\"Type of the address. This is a reference data field.\",\"type\":\"string\",\"example\":\"PRIMARY_ADDRESS\"},\"addressLine1\":{\"description\":\"address line1 of the mailing address\",\"type\":\"string\",\"example\":\"40A ORCHARD ROAD\"},\"addressLine2\":{\"description\":\"address line2 of the mailing address\",\"type\":\"string\",\"example\":\"#99-99 MACDONALD HOUSE\"},\"addressLine3\":{\"description\":\"address line3 of the mailing address\",\"type\":\"string\",\"example\":\"Orchard Avenue 2\"},\"addressLine4\":{\"description\":\"address line4 of the mailing address\",\"type\":\"string\",\"example\":\"Street 65\"},\"city\":{\"description\":\"City\",\"type\":\"string\",\"example\":\"South Africa\"},\"province\":{\"description\":\"Province description\",\"type\":\"string\",\"example\":\"Durban\"},\"postalCode\":{\"description\":\"Postal code the mailing address\",\"type\":\"string\",\"example\":\"520189\"},\"countryName\":{\"description\":\"Country Name. This is a reference data field. Please use /v1/utilities/referenceData/{countryName} resource to get valid value of this field with description.\",\"type\":\"string\",\"example\":\"South Africa\"}},\"required\":[\"addressLine1\",\"addressType\"]},\"auditDetail\":{\"properties\":{\"lastUpdated\":{\"type\":\"string\",\"example\":\"1542350163438\",\"description\":\"last update epoch time\"},\"lastUpdatedBy\":{\"type\":\"string\",\"example\":\"id of last updated user\",\"description\":\"userName\"},\"createdBy\":{\"type\":\"string\",\"example\":\"1542350163438\",\"description\":\"created epoch time\"}}},\"companyInfo\":{\"properties\":{\"companyName\":{\"type\":\"string\",\"example\":\"Price Company\"},\"registrationNumber\":{\"type\":\"string\"},\"companyDocument\":{\"$ref\":\"#/definitions/document\"},\"vatNumber\":{\"type\":\"string\"},\"vatDoument\":{\"$ref\":\"#/definitions/document\"}}},\"bankInfo\":{\"properties\":{\"bankName\":{\"type\":\"string\",\"example\":\"RMB Bank\"},\"accountName\":{\"type\":\"string\"},\"accountNumber\":{\"type\":\"integer\"},\"branchName\":{\"type\":\"string\"},\"branchCode\":{\"type\":\"integer\"},\"bankAddress\":{\"$ref\":\"#/definitions/addressDetail\"},\"accountDocument\":{\"$ref\":\"#/definitions/document\"}}},\"document\":{\"properties\":{\"documentName\":{\"type\":\"string\",\"example\":\"Document Name\"},\"documentPicture\":{\"type\":\"string\",\"example\":\"1@#(&CUFER92327rijefe89542350163438\",\"description\":\"binary document\"}}},\"profileRole\":{\"properties\":{\"roleType\":{\"type\":\"string\",\"enum\":[\"Requestor\",\"Respondent\",\"Driver\"]},\"roleName\":{\"type\":\"string\",\"description\":\"Roles defined in system for a role type\"},\"identityDetails\":{\"$ref\":\"#/definitions/identityDetail\"},\"address\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/addressDetail\"}},\"companyDetails\":{\"$ref\":\"#/definitions/companyInfo\"},\"bankDetails\":{\"$ref\":\"#/definitions/bankInfo\"}}},\"identityDetail\":{\"properties\":{\"idType\":{\"type\":\"string\",\"enum\":[\"Passport\",\"NationalId\"]},\"idNumber\":{\"type\":\"integer\"},\"expiryDate\":{\"type\":\"string\",\"example\":\"2018-09-30T19:00:00Z\"},\"country\":{\"type\":\"string\"},\"idDocument\":{\"$ref\":\"#/definitions/document\"}}},\"subscriptionsArray\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/subscription\"}},\"subscription\":{\"type\":\"object\",\"properties\":{\"planId\":{\"type\":\"integer\",\"description\":\"subscription plan id, need in fetch call but not in create or update as it would be auto-generated value\"},\"tenure\":{\"type\":\"string\",\"description\":\"Monthly or Yearly tenure\",\"enum\":[\"Monthly\",\"Yearly\"]},\"fromDate\":{\"type\":\"string\",\"description\":\"Start date of plan\",\"example\":\"2018-09-30T19:00:00Z\"},\"toDate\":{\"type\":\"string\",\"description\":\"End date of plan\",\"example\":\"2018-09-30T19:00:00Z\"},\"amount\":{\"type\":\"integer\",\"description\":\"plan amount\",\"example\":100},\"tax\":{\"type\":\"integer\",\"description\":\"tax amount\",\"example\":20},\"vat\":{\"type\":\"integer\",\"description\":\"vat percentage\",\"example\":20},\"totalAmount\":{\"type\":\"integer\",\"description\":\"plan amount\",\"example\":120},\"activeFlag\":{\"type\":\"boolean\",\"example\":true,\"description\":\"Flag to indicate if plan is active or not\",\"enum\":[true,false]},\"recommendFlag\":{\"type\":\"boolean\",\"example\":true,\"description\":\"Flag to indicate if plan is recommended or not\",\"enum\":[true,false]}}},\"subscriptionsHistoryArray\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/subscriptionHistory\"}},\"subscriptionHistory\":{\"type\":\"object\",\"properties\":{\"orderId\":{\"type\":\"integer\",\"description\":\"subscription order id, need in fetch call but not in create or update as it would be auto-generated value\"},\"orderDate\":{\"type\":\"integer\",\"description\":\"subscription orderDate, need in fetch call but not in create or update as it would be auto-generated value\"},\"subscriptionPlan\":{\"$ref\":\"#/definitions/subscription\"}}},\"userPlan\":{\"type\":\"object\",\"properties\":{\"userId\":{\"type\":\"integer\"},\"subscriptionPlan\":{\"$ref\":\"#/definitions/subscription\"},\"paymentMethod\":{\"type\":\"string\",\"example\":\"Credit Card\"}}},\"functionsArray\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/functions\"}},\"functions\":{\"type\":\"object\",\"properties\":{\"tile\":{\"type\":\"string\",\"description\":\"Function or tile name\"},\"previewAccess\":{\"type\":\"string\",\"description\":\"indicate if Preview Access is provided\",\"enum\":[\"Yes\",\"No\",\"Limited\"]}}},\"orderDetails\":{\"type\":\"object\",\"properties\":{\"orderDate\":{\"type\":\"string\",\"description\":\"Order date of plan payment\",\"example\":\"2018-09-30T19:00:00Z\"},\"planId\":{\"type\":\"string\",\"description\":\"planId of subscribed plan\"},\"tenure\":{\"type\":\"string\",\"description\":\"Monthly or Yearly\",\"enum\":[\"Monthly\",\"Yearly\"]},\"paymentMethod\":{\"type\":\"string\",\"description\":\"Card Details\"},\"amount\":{\"type\":\"integer\",\"description\":\"Amount before tax\"},\"tax\":{\"type\":\"integer\",\"description\":\"Tax amount\"},\"totalAmount\":{\"type\":\"integer\",\"description\":\"Total amount including tax\"}}},\"paymentSuccess\":{\"type\":\"object\",\"properties\":{\"transactionId\":{\"type\":\"string\",\"description\":\"transactionId of payment\",\"example\":\"CC123456789\"},\"orderDate\":{\"type\":\"string\",\"description\":\"Order date of plan payment\",\"example\":\"2018-09-30T19:00:00Z\"}}},\"faqCategories\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/faqCategory\"}},\"faqCategory\":{\"type\":\"object\",\"properties\":{\"categoryId\":{\"type\":\"integer\",\"description\":\"category id of FAQ\",\"example\":123},\"categoryName\":{\"type\":\"string\",\"description\":\"category name of FAQ\",\"example\":\"Login\"}}},\"faqList\":{\"type\":\"object\",\"properties\":{\"categoryName\":{\"type\":\"string\",\"description\":\"category id of FAQ\",\"example\":\"Login\"},\"faqs\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/faq\"}}}},\"faq\":{\"type\":\"object\",\"properties\":{\"question\":{\"type\":\"string\",\"description\":\"Question in FAQ\",\"example\":\"How to reset password\"},\"answer\":{\"type\":\"string\",\"description\":\"Answer in FAQ\",\"example\":\"Click forgot password\"}}},\"userQuery\":{\"type\":\"object\",\"required\":[\"user\",\"faqCategory\",\"faqQuery\"],\"description\":\"Input parameters for Customer support Query\",\"properties\":{\"user\":{\"type\":\"string\",\"description\":\"Email of user\",\"example\":\"abc@xyz.com\"},\"faqCategory\":{\"type\":\"integer\",\"example\":\"Login\",\"description\":\"FAQ Category name\"},\"faqQuery\":{\"type\":\"string\",\"example\":\"How to reset Login password?\",\"description\":\"Description of FAQ query details\"}}},\"termsList\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/terms\"}},\"terms\":{\"type\":\"object\",\"properties\":{\"creationTime\":{\"type\":\"string\",\"description\":\"creation time in epoch format\"},\"fromDate\":{\"type\":\"string\",\"description\":\"from date time in epoch format\"},\"toDate\":{\"type\":\"string\",\"description\":\"to date time in epoch format\"},\"termsFile\":{\"type\":\"string\",\"description\":\"terms file path\"}}},\"tncConform\":{\"type\":\"object\",\"properties\":{\"user\":{\"type\":\"string\",\"description\":\"email id of user\"},\"tncVersion\":{\"type\":\"string\",\"description\":\"version of latest TnC\"},\"tncConform\":{\"type\":\"boolean\",\"description\":\"true or false\",\"enum\":[true,false]}}},\"CustomerSupportRaiseQueryPost200ApplicationJsonResponse\":{\"type\":\"object\",\"properties\":{\"caseIdReference\":{\"type\":\"integer\",\"description\":\"Customer Support Reference ticket number\",\"example\":12345}}}}"
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/60954815b2bd770384f3882f')]",
+      "type": "Microsoft.ApiManagement/service/apis/schemas",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'cc-end-user-management-api')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [
+          {
+            "name": "categoryId",
+            "description": "Faq category to fetch",
+            "type": "string",
+            "required": true,
+            "values": []
+          }
+        ],
+        "description": "Fetch customer Support Category",
+        "request": {
+          "queryParameters": [],
+          "headers": [
+            {
+              "name": "Authorization",
+              "description": "An access token issued by an AIA Authorization server. This will have the format Bearer + {space} + {accessToken}. Example: Bearer KGNsaWVudF9pZDpjbGllbnRfc2VjcmV0KQ==",
+              "type": "string",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "x-cc-trace-id",
+              "description": "Unique transaction request id to enable tracing and auditing",
+              "type": "string",
+              "required": false,
+              "values": []
+            }
+          ],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "FAQ list returned Successfully",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"categoryName\": \"Login\",\r\n  \"faqs\": [\r\n    {\r\n      \"question\": \"How to reset password\",\r\n      \"answer\": \"Click forgot password\"\r\n    }\r\n  ]\r\n}",
+                "schemaId": "60954815b2bd770384f3882f",
+                "typeName": "faqList"
+              }
+            ]
+          },
+          {
+            "statusCode": 400,
+            "description": "Invalid Parameters.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          },
+          {
+            "statusCode": 401,
+            "description": "Unauthorized. Token authentication failed.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"timestamp\": 827354823232,\r\n  \"status\": 401,\r\n  \"error\": \"Unauthorized\",\r\n  \"message\": \"No message available\",\r\n  \"path\": \"/user/resource\"\r\n}",
+                "schemaId": "60954815b2bd770384f3882f",
+                "typeName": "unAuthorizedRes"
+              }
+            ]
+          },
+          {
+            "statusCode": 405,
+            "description": "Http method not allowed.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          },
+          {
+            "statusCode": 500,
+            "description": "Internal Server Error",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          }
+        ],
+        "displayName": "/customerSupport/faq?categoryId={categoryId} - GET",
+        "method": "GET",
+        "urlTemplate": "/customerSupport/faq?categoryId={categoryId}"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/get-customersupport-faq-categoryid-categoryid')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'cc-end-user-management-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'cc-end-user-management-api', '60954815b2bd770384f3882f')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Customer Support"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/get-customersupport-faq-categoryid-categoryid/Customer-Support')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'cc-end-user-management-api', 'get-customersupport-faq-categoryid-categoryid')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "Fetch customer Support Category",
+        "request": {
+          "queryParameters": [],
+          "headers": [
+            {
+              "name": "Authorization",
+              "description": "An access token issued by an AIA Authorization server. This will have the format Bearer + {space} + {accessToken}. Example: Bearer KGNsaWVudF9pZDpjbGllbnRfc2VjcmV0KQ==",
+              "type": "string",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "x-cc-trace-id",
+              "description": "Unique transaction request id to enable tracing and auditing",
+              "type": "string",
+              "required": false,
+              "values": []
+            }
+          ],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Category list returned Successfully",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "[[\r\n  {\r\n    \"categoryId\": 123,\r\n    \"categoryName\": \"Login\"\r\n  }\r\n]",
+                "schemaId": "60954815b2bd770384f3882f",
+                "typeName": "faqCategories"
+              }
+            ]
+          },
+          {
+            "statusCode": 400,
+            "description": "Invalid Parameters.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          },
+          {
+            "statusCode": 401,
+            "description": "Unauthorized. Token authentication failed.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"timestamp\": 827354823232,\r\n  \"status\": 401,\r\n  \"error\": \"Unauthorized\",\r\n  \"message\": \"No message available\",\r\n  \"path\": \"/user/resource\"\r\n}",
+                "schemaId": "60954815b2bd770384f3882f",
+                "typeName": "unAuthorizedRes"
+              }
+            ]
+          },
+          {
+            "statusCode": 405,
+            "description": "Http method not allowed.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          },
+          {
+            "statusCode": 500,
+            "description": "Internal Server Error",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          }
+        ],
+        "displayName": "/customerSupport/faqCategories - GET",
+        "method": "GET",
+        "urlTemplate": "/customerSupport/faqCategories"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/get-customersupport-faqcategories')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'cc-end-user-management-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'cc-end-user-management-api', '60954815b2bd770384f3882f')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Customer Support"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/get-customersupport-faqcategories/Customer-Support')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'cc-end-user-management-api', 'get-customersupport-faqcategories')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "Fetch all base plans for Subscription",
+        "request": {
+          "queryParameters": [],
+          "headers": [
+            {
+              "name": "Authorization",
+              "description": "An access token issued by an AIA Authorization server. This will have the format Bearer + {space} + {accessToken}. Example: Bearer KGNsaWVudF9pZDpjbGllbnRfc2VjcmV0KQ==",
+              "type": "string",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "x-cc-trace-id",
+              "description": "Unique transaction request id to enable tracing and auditing",
+              "type": "string",
+              "required": false,
+              "values": []
+            }
+          ],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Subscription response Successful",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "[[\r\n  {\r\n    \"planId\": 0,\r\n    \"tenure\": \"Monthly\",\r\n    \"fromDate\": \"2018-09-30T19:00:00Z\",\r\n    \"toDate\": \"2018-09-30T19:00:00Z\",\r\n    \"amount\": 100,\r\n    \"tax\": 20,\r\n    \"vat\": 20,\r\n    \"totalAmount\": 120,\r\n    \"activeFlag\": true,\r\n    \"recommendFlag\": true\r\n  }\r\n]",
+                "schemaId": "60954815b2bd770384f3882f",
+                "typeName": "subscriptionsArray"
+              }
+            ]
+          },
+          {
+            "statusCode": 400,
+            "description": "Invalid Parameters.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          },
+          {
+            "statusCode": 401,
+            "description": "Unauthorized. Token authentication failed.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"timestamp\": 827354823232,\r\n  \"status\": 401,\r\n  \"error\": \"Unauthorized\",\r\n  \"message\": \"No message available\",\r\n  \"path\": \"/user/resource\"\r\n}",
+                "schemaId": "60954815b2bd770384f3882f",
+                "typeName": "unAuthorizedRes"
+              }
+            ]
+          },
+          {
+            "statusCode": 405,
+            "description": "Http method not allowed.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          },
+          {
+            "statusCode": 500,
+            "description": "Internal Server Error",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          }
+        ],
+        "displayName": "/subscribe/basePlans - GET",
+        "method": "GET",
+        "urlTemplate": "/subscribe/basePlans"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/get-subscribe-baseplans')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'cc-end-user-management-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'cc-end-user-management-api', '60954815b2bd770384f3882f')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Subscription"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/get-subscribe-baseplans/Subscription')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'cc-end-user-management-api', 'get-subscribe-baseplans')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "Fetch Functions/Tiles available for subscription",
+        "request": {
+          "queryParameters": [],
+          "headers": [
+            {
+              "name": "Authorization",
+              "description": "An access token issued by an AIA Authorization server. This will have the format Bearer + {space} + {accessToken}. Example: Bearer KGNsaWVudF9pZDpjbGllbnRfc2VjcmV0KQ==",
+              "type": "string",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "x-cc-trace-id",
+              "description": "Unique transaction request id to enable tracing and auditing",
+              "type": "string",
+              "required": false,
+              "values": []
+            }
+          ],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Function/Tile response Successful",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "[[\r\n  {\r\n    \"tile\": \"string\",\r\n    \"previewAccess\": \"Yes\"\r\n  }\r\n]",
+                "schemaId": "60954815b2bd770384f3882f",
+                "typeName": "functionsArray"
+              }
+            ]
+          },
+          {
+            "statusCode": 400,
+            "description": "Invalid Parameters.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          },
+          {
+            "statusCode": 401,
+            "description": "Unauthorized. Token authentication failed.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"timestamp\": 827354823232,\r\n  \"status\": 401,\r\n  \"error\": \"Unauthorized\",\r\n  \"message\": \"No message available\",\r\n  \"path\": \"/user/resource\"\r\n}",
+                "schemaId": "60954815b2bd770384f3882f",
+                "typeName": "unAuthorizedRes"
+              }
+            ]
+          },
+          {
+            "statusCode": 405,
+            "description": "Http method not allowed.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          },
+          {
+            "statusCode": 500,
+            "description": "Internal Server Error",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          }
+        ],
+        "displayName": "/subscribe/functions - GET",
+        "method": "GET",
+        "urlTemplate": "/subscribe/functions"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/get-subscribe-functions')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'cc-end-user-management-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'cc-end-user-management-api', '60954815b2bd770384f3882f')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "[concat(parameters('PolicyXMLBaseUrl'), '/cc-end-user-management-api-get-subscribe-functions-operationPolicy.xml')]",
+        "format": "rawxml-link"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/get-subscribe-functions/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'cc-end-user-management-api', 'get-subscribe-functions')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Subscription"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/get-subscribe-functions/Subscription')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'cc-end-user-management-api', 'get-subscribe-functions')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "Fetch plans subscribed by user",
+        "request": {
+          "queryParameters": [],
+          "headers": [
+            {
+              "name": "Authorization",
+              "description": "An access token issued by an AIA Authorization server. This will have the format Bearer + {space} + {accessToken}. Example: Bearer KGNsaWVudF9pZDpjbGllbnRfc2VjcmV0KQ==",
+              "type": "string",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "x-cc-trace-id",
+              "description": "Unique transaction request id to enable tracing and auditing",
+              "type": "string",
+              "required": false,
+              "values": []
+            }
+          ],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Role response Successful",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "[[\r\n  {\r\n    \"orderId\": 0,\r\n    \"orderDate\": 0,\r\n    \"subscriptionPlan\": {\r\n      \"planId\": 0,\r\n      \"tenure\": \"Monthly\",\r\n      \"fromDate\": \"2018-09-30T19:00:00Z\",\r\n      \"toDate\": \"2018-09-30T19:00:00Z\",\r\n      \"amount\": 100,\r\n      \"tax\": 20,\r\n      \"vat\": 20,\r\n      \"totalAmount\": 120,\r\n      \"activeFlag\": true,\r\n      \"recommendFlag\": true\r\n    }\r\n  }\r\n]",
+                "schemaId": "60954815b2bd770384f3882f",
+                "typeName": "subscriptionsHistoryArray"
+              }
+            ]
+          },
+          {
+            "statusCode": 400,
+            "description": "Invalid Parameters.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          },
+          {
+            "statusCode": 401,
+            "description": "Unauthorized. Token authentication failed.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"timestamp\": 827354823232,\r\n  \"status\": 401,\r\n  \"error\": \"Unauthorized\",\r\n  \"message\": \"No message available\",\r\n  \"path\": \"/user/resource\"\r\n}",
+                "schemaId": "60954815b2bd770384f3882f",
+                "typeName": "unAuthorizedRes"
+              }
+            ]
+          },
+          {
+            "statusCode": 405,
+            "description": "Http method not allowed.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          },
+          {
+            "statusCode": 500,
+            "description": "Internal Server Error",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          }
+        ],
+        "displayName": "/subscribe/history - GET",
+        "method": "GET",
+        "urlTemplate": "/subscribe/history"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/get-subscribe-history')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'cc-end-user-management-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'cc-end-user-management-api', '60954815b2bd770384f3882f')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Subscription"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/get-subscribe-history/Subscription')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'cc-end-user-management-api', 'get-subscribe-history')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "Subscribe to a plan",
+        "request": {
+          "description": "Details of payment order",
+          "queryParameters": [],
+          "headers": [
+            {
+              "name": "Authorization",
+              "description": "An access token issued by an AIA Authorization server. This will have the format Bearer + {space} + {accessToken}. Example: Bearer KGNsaWVudF9pZDpjbGllbnRfc2VjcmV0KQ==",
+              "type": "string",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "x-cc-trace-id",
+              "description": "Unique transaction request id to enable tracing and auditing",
+              "type": "string",
+              "required": false,
+              "values": []
+            }
+          ],
+          "representations": [
+            {
+              "contentType": "application/json",
+              "sample": "{\r\n  \"orderDate\": \"2018-09-30T19:00:00Z\",\r\n  \"planId\": \"string\",\r\n  \"tenure\": \"Monthly\",\r\n  \"paymentMethod\": \"string\",\r\n  \"amount\": 0,\r\n  \"tax\": 0,\r\n  \"totalAmount\": 0\r\n}",
+              "schemaId": "60954815b2bd770384f3882f",
+              "typeName": "orderDetails"
+            }
+          ]
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Ok. Subscription response Successful",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"transactionId\": \"CC123456789\",\r\n  \"orderDate\": \"2018-09-30T19:00:00Z\"\r\n}",
+                "schemaId": "60954815b2bd770384f3882f",
+                "typeName": "paymentSuccess"
+              }
+            ]
+          },
+          {
+            "statusCode": 400,
+            "description": "Invalid Parameters.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          },
+          {
+            "statusCode": 401,
+            "description": "Unauthorized. Token authentication failed.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"timestamp\": 827354823232,\r\n  \"status\": 401,\r\n  \"error\": \"Unauthorized\",\r\n  \"message\": \"No message available\",\r\n  \"path\": \"/user/resource\"\r\n}",
+                "schemaId": "60954815b2bd770384f3882f",
+                "typeName": "unAuthorizedRes"
+              }
+            ]
+          },
+          {
+            "statusCode": 405,
+            "description": "Http method not allowed.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          },
+          {
+            "statusCode": 500,
+            "description": "Internal Server Error",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          }
+        ],
+        "displayName": "/subscribe/payment - POST",
+        "method": "POST",
+        "urlTemplate": "/subscribe/payment"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/post-subscribe-payment')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'cc-end-user-management-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'cc-end-user-management-api', '60954815b2bd770384f3882f')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Subscription"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/post-subscribe-payment/Subscription')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'cc-end-user-management-api', 'post-subscribe-payment')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "Subscribe to a plan",
+        "request": {
+          "description": "Details of plan",
+          "queryParameters": [],
+          "headers": [
+            {
+              "name": "Authorization",
+              "description": "An access token issued by an AIA Authorization server. This will have the format Bearer + {space} + {accessToken}. Example: Bearer KGNsaWVudF9pZDpjbGllbnRfc2VjcmV0KQ==",
+              "type": "string",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "x-cc-trace-id",
+              "description": "Unique transaction request id to enable tracing and auditing",
+              "type": "string",
+              "required": false,
+              "values": []
+            }
+          ],
+          "representations": [
+            {
+              "contentType": "application/json",
+              "sample": "{\r\n  \"userId\": 0,\r\n  \"subscriptionPlan\": {\r\n    \"planId\": 0,\r\n    \"tenure\": \"Monthly\",\r\n    \"fromDate\": \"2018-09-30T19:00:00Z\",\r\n    \"toDate\": \"2018-09-30T19:00:00Z\",\r\n    \"amount\": 100,\r\n    \"tax\": 20,\r\n    \"vat\": 20,\r\n    \"totalAmount\": 120,\r\n    \"activeFlag\": true,\r\n    \"recommendFlag\": true\r\n  },\r\n  \"paymentMethod\": \"Credit Card\"\r\n}",
+              "schemaId": "60954815b2bd770384f3882f",
+              "typeName": "userPlan"
+            }
+          ]
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Ok. Subscription Plans response Successful",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          },
+          {
+            "statusCode": 400,
+            "description": "Invalid Parameters.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          },
+          {
+            "statusCode": 401,
+            "description": "Unauthorized. Token authentication failed.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"timestamp\": 827354823232,\r\n  \"status\": 401,\r\n  \"error\": \"Unauthorized\",\r\n  \"message\": \"No message available\",\r\n  \"path\": \"/user/resource\"\r\n}",
+                "schemaId": "60954815b2bd770384f3882f",
+                "typeName": "unAuthorizedRes"
+              }
+            ]
+          },
+          {
+            "statusCode": 405,
+            "description": "Http method not allowed.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          },
+          {
+            "statusCode": 500,
+            "description": "Internal Server Error",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          }
+        ],
+        "displayName": "/subscribe/plans - POST",
+        "method": "POST",
+        "urlTemplate": "/subscribe/plans"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/post-subscribe-plans')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'cc-end-user-management-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'cc-end-user-management-api', '60954815b2bd770384f3882f')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Subscription"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/post-subscribe-plans/Subscription')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'cc-end-user-management-api', 'post-subscribe-plans')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [
+          {
+            "name": "userName",
+            "description": "User Name to fetch Roles",
+            "type": "string",
+            "required": true,
+            "values": []
+          }
+        ],
+        "description": "Fetch user roles details",
+        "request": {
+          "queryParameters": [],
+          "headers": [
+            {
+              "name": "Authorization",
+              "description": "An access token issued by an AIA Authorization server. This will have the format Bearer + {space} + {accessToken}. Example: Bearer KGNsaWVudF9pZDpjbGllbnRfc2VjcmV0KQ==",
+              "type": "string",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "x-cc-trace-id",
+              "description": "Unique transaction request id to enable tracing and auditing",
+              "type": "string",
+              "required": false,
+              "values": []
+            }
+          ],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Role response Successful",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "[[\r\n  {\r\n    \"name\": \"Administrator\",\r\n    \"type\": \"Requestor\",\r\n    \"permissions\": [\r\n      {\r\n        \"function\": \"Advertisement Finance\",\r\n        \"method\": \"view, edit or *\"\r\n      }\r\n    ]\r\n  }\r\n]",
+                "schemaId": "60954815b2bd770384f3882f",
+                "typeName": "userRolesArray"
+              }
+            ]
+          },
+          {
+            "statusCode": 400,
+            "description": "Invalid Parameters.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          },
+          {
+            "statusCode": 401,
+            "description": "Unauthorized. Token authentication failed.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"timestamp\": 827354823232,\r\n  \"status\": 401,\r\n  \"error\": \"Unauthorized\",\r\n  \"message\": \"No message available\",\r\n  \"path\": \"/user/resource\"\r\n}",
+                "schemaId": "60954815b2bd770384f3882f",
+                "typeName": "unAuthorizedRes"
+              }
+            ]
+          },
+          {
+            "statusCode": 405,
+            "description": "Http method not allowed.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          },
+          {
+            "statusCode": 500,
+            "description": "Internal Server Error",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          }
+        ],
+        "displayName": "/users/{userName}/roles - GET",
+        "method": "GET",
+        "urlTemplate": "/users/{userName}/roles"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/get-users-username-roles')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'cc-end-user-management-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'cc-end-user-management-api', '60954815b2bd770384f3882f')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "User Roles"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/get-users-username-roles/User-Roles')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'cc-end-user-management-api', 'get-users-username-roles')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [
+          {
+            "name": "userName",
+            "description": "User Name to fetch Roles",
+            "type": "string",
+            "required": true,
+            "values": []
+          },
+          {
+            "name": "roleName",
+            "description": "User Role to fetch",
+            "type": "string",
+            "required": true,
+            "values": []
+          }
+        ],
+        "description": "Fetch user role details",
+        "request": {
+          "queryParameters": [],
+          "headers": [
+            {
+              "name": "Authorization",
+              "description": "An access token issued by an AIA Authorization server. This will have the format Bearer + {space} + {accessToken}. Example: Bearer KGNsaWVudF9pZDpjbGllbnRfc2VjcmV0KQ==",
+              "type": "string",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "x-cc-trace-id",
+              "description": "Unique transaction request id to enable tracing and auditing",
+              "type": "string",
+              "required": false,
+              "values": []
+            }
+          ],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Role response Successful",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"name\": \"Administrator\",\r\n  \"type\": \"Requestor\",\r\n  \"permissions\": [\r\n    {\r\n      \"function\": \"Advertisement Finance\",\r\n      \"method\": \"view, edit or *\"\r\n    }\r\n  ]\r\n}",
+                "schemaId": "60954815b2bd770384f3882f",
+                "typeName": "userRoles"
+              }
+            ]
+          },
+          {
+            "statusCode": 400,
+            "description": "Invalid Parameters.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          },
+          {
+            "statusCode": 401,
+            "description": "Unauthorized. Token authentication failed.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"timestamp\": 827354823232,\r\n  \"status\": 401,\r\n  \"error\": \"Unauthorized\",\r\n  \"message\": \"No message available\",\r\n  \"path\": \"/user/resource\"\r\n}",
+                "schemaId": "60954815b2bd770384f3882f",
+                "typeName": "unAuthorizedRes"
+              }
+            ]
+          },
+          {
+            "statusCode": 405,
+            "description": "Http method not allowed.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          },
+          {
+            "statusCode": 500,
+            "description": "Internal Server Error",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          }
+        ],
+        "displayName": "/users/{userName}/roles/{roleName} - GET",
+        "method": "GET",
+        "urlTemplate": "/users/{userName}/roles/{roleName}"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/get-users-username-roles-rolename')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'cc-end-user-management-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'cc-end-user-management-api', '60954815b2bd770384f3882f')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "User Roles"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/get-users-username-roles-rolename/User-Roles')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'cc-end-user-management-api', 'get-users-username-roles-rolename')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "",
+        "request": {
+          "queryParameters": [],
+          "headers": [
+            {
+              "name": "Authorization",
+              "type": "",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "x-cc-trace-id",
+              "type": "",
+              "required": false,
+              "values": []
+            }
+          ],
+          "representations": []
+        },
+        "responses": [],
+        "displayName": "/users/appRoles",
+        "method": "GET",
+        "urlTemplate": "/users/appRoles"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/users-approles')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'cc-end-user-management-api')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "Fetch user profile details",
+        "request": {
+          "description": "Credentials of the user being logged in the application",
+          "queryParameters": [],
+          "headers": [
+            {
+              "name": "Authorization",
+              "description": "An access token issued by an AIA Authorization server. This will have the format Bearer + {space} + {accessToken}. Example: Bearer KGNsaWVudF9pZDpjbGllbnRfc2VjcmV0KQ==",
+              "type": "string",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "x-cc-trace-id",
+              "description": "Unique transaction request id to enable tracing and auditing",
+              "type": "string",
+              "required": false,
+              "values": []
+            }
+          ],
+          "representations": [
+            {
+              "contentType": "application/json",
+              "sample": "{\r\n  \"firstName\": \"John\",\r\n  \"lastName\": \"Doe\",\r\n  \"userEmail\": \"John.Doe@xyz.com\",\r\n  \"companyName\": \"Doe\"\r\n}",
+              "schemaId": "60954815b2bd770384f3882f",
+              "typeName": "loginProfile"
+            }
+          ]
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Profile responded Successful",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"status\": \"valid\",\r\n  \"userType\": \"Internal or Preview/Premium\",\r\n  \"company\": \"TPT/ Mr.Price\",\r\n  \"lastLogin\": \"Fri Nov 16 11:36:03 PKT 2018\",\r\n  \"creationDate\": \"2018-09-30T19:00:00Z\",\r\n  \"pwdExpiryDate\": \"2018-09-30T19:00:00Z\",\r\n  \"subscriptionExpiryDate\": \"2018-09-30T19:00:00Z\",\r\n  \"numberOfEmployees\": 10,\r\n  \"active\": true,\r\n  \"userDetails\": {\r\n    \"id\": 12345,\r\n    \"isSuperAdmin\": \"true or false\",\r\n    \"newNotifications\": \"true or false\",\r\n    \"userDetails\": {\r\n      \"user\": {\r\n        \"employeeId\": 1234567,\r\n        \"userEmail\": \"abc@tpt.com\",\r\n        \"userMobile\": 1234567890\r\n      },\r\n      \"userName\": \"John Doe\",\r\n      \"firstName\": \"John\",\r\n      \"lastName\": \"Doe\",\r\n      \"userType\": \"Internal or Preview/Premium\",\r\n      \"profilePicture\": \"1@#(&CUFER92327rijefe89542350163438\"\r\n    },\r\n    \"roles\": [\r\n      {\r\n        \"name\": \"Administrator\",\r\n        \"type\": \"Requestor\",\r\n        \"permissions\": [\r\n          {\r\n            \"function\": \"Advertisement Finance\",\r\n            \"method\": \"view, edit or *\"\r\n          }\r\n        ]\r\n      }\r\n    ],\r\n    \"audit\": {\r\n      \"lastUpdated\": \"1542350163438\",\r\n      \"lastUpdatedBy\": \"id of last updated user\",\r\n      \"createdBy\": \"1542350163438\"\r\n    }\r\n  }\r\n}",
+                "schemaId": "60954815b2bd770384f3882f",
+                "typeName": "userLoginSuccess"
+              }
+            ]
+          },
+          {
+            "statusCode": 400,
+            "description": "Invalid Parameters.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          },
+          {
+            "statusCode": 401,
+            "description": "Unauthorized. Token authentication failed.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"timestamp\": 827354823232,\r\n  \"status\": 401,\r\n  \"error\": \"Unauthorized\",\r\n  \"message\": \"No message available\",\r\n  \"path\": \"/user/resource\"\r\n}",
+                "schemaId": "60954815b2bd770384f3882f",
+                "typeName": "unAuthorizedRes"
+              }
+            ]
+          },
+          {
+            "statusCode": 405,
+            "description": "Http method not allowed.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          },
+          {
+            "statusCode": 500,
+            "description": "Internal Server Error",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          }
+        ],
+        "displayName": "/users/loginProfile - POST",
+        "method": "POST",
+        "urlTemplate": "/users/loginProfile"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/post-users-loginprofile')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'cc-end-user-management-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'cc-end-user-management-api', '60954815b2bd770384f3882f')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "[concat(parameters('PolicyXMLBaseUrl'), '/cc-end-user-management-api-post-users-loginprofile-operationPolicy.xml')]",
+        "format": "rawxml-link"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/post-users-loginprofile/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'cc-end-user-management-api', 'post-users-loginprofile')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "User Profile"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/post-users-loginprofile/User-Profile')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'cc-end-user-management-api', 'post-users-loginprofile')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "Update user profile details",
+        "request": {
+          "description": "Credentials of the user being logged in the application",
+          "queryParameters": [],
+          "headers": [
+            {
+              "name": "Authorization",
+              "description": "An access token issued by an AIA Authorization server. This will have the format Bearer + {space} + {accessToken}. Example: Bearer KGNsaWVudF9pZDpjbGllbnRfc2VjcmV0KQ==",
+              "type": "string",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "x-cc-trace-id",
+              "description": "Unique transaction request id to enable tracing and auditing",
+              "type": "string",
+              "required": false,
+              "values": []
+            }
+          ],
+          "representations": [
+            {
+              "contentType": "application/json",
+              "sample": "{\r\n  \"userDetails\": {\r\n    \"user\": {\r\n      \"employeeId\": 1234567,\r\n      \"userEmail\": \"abc@tpt.com\",\r\n      \"userMobile\": 1234567890\r\n    },\r\n    \"userName\": \"John Doe\",\r\n    \"firstName\": \"John\",\r\n    \"lastName\": \"Doe\",\r\n    \"userType\": \"Internal or Preview/Premium\",\r\n    \"profilePicture\": \"1@#(&CUFER92327rijefe89542350163438\"\r\n  },\r\n  \"profileRoles\": [\r\n    {\r\n      \"roleType\": \"Requestor\",\r\n      \"roleName\": \"string\",\r\n      \"identityDetails\": {\r\n        \"idType\": \"Passport\",\r\n        \"idNumber\": 0,\r\n        \"expiryDate\": \"2018-09-30T19:00:00Z\",\r\n        \"country\": \"string\",\r\n        \"idDocument\": {\r\n          \"documentName\": \"Document Name\",\r\n          \"documentPicture\": \"1@#(&CUFER92327rijefe89542350163438\"\r\n        }\r\n      },\r\n      \"address\": [\r\n        {\r\n          \"addressType\": \"PRIMARY_ADDRESS\",\r\n          \"addressLine1\": \"40A ORCHARD ROAD\",\r\n          \"addressLine2\": \"#99-99 MACDONALD HOUSE\",\r\n          \"addressLine3\": \"Orchard Avenue 2\",\r\n          \"addressLine4\": \"Street 65\",\r\n          \"city\": \"South Africa\",\r\n          \"province\": \"Durban\",\r\n          \"postalCode\": \"520189\",\r\n          \"countryName\": \"South Africa\"\r\n        }\r\n      ],\r\n      \"companyDetails\": {\r\n        \"companyName\": \"Price Company\",\r\n        \"registrationNumber\": \"string\",\r\n        \"companyDocument\": {\r\n          \"documentName\": \"Document Name\",\r\n          \"documentPicture\": \"1@#(&CUFER92327rijefe89542350163438\"\r\n        },\r\n        \"vatNumber\": \"string\",\r\n        \"vatDoument\": {\r\n          \"documentName\": \"Document Name\",\r\n          \"documentPicture\": \"1@#(&CUFER92327rijefe89542350163438\"\r\n        }\r\n      },\r\n      \"bankDetails\": {\r\n        \"bankName\": \"RMB Bank\",\r\n        \"accountName\": \"string\",\r\n        \"accountNumber\": 0,\r\n        \"branchName\": \"string\",\r\n        \"branchCode\": 0,\r\n        \"bankAddress\": {\r\n          \"addressType\": \"PRIMARY_ADDRESS\",\r\n          \"addressLine1\": \"40A ORCHARD ROAD\",\r\n          \"addressLine2\": \"#99-99 MACDONALD HOUSE\",\r\n          \"addressLine3\": \"Orchard Avenue 2\",\r\n          \"addressLine4\": \"Street 65\",\r\n          \"city\": \"South Africa\",\r\n          \"province\": \"Durban\",\r\n          \"postalCode\": \"520189\",\r\n          \"countryName\": \"South Africa\"\r\n        },\r\n        \"accountDocument\": {\r\n          \"documentName\": \"Document Name\",\r\n          \"documentPicture\": \"1@#(&CUFER92327rijefe89542350163438\"\r\n        }\r\n      }\r\n    }\r\n  ]\r\n}",
+              "schemaId": "60954815b2bd770384f3882f",
+              "typeName": "userProfile"
+            }
+          ]
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "OK",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          },
+          {
+            "statusCode": 400,
+            "description": "Invalid Parameters.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          },
+          {
+            "statusCode": 401,
+            "description": "Unauthorized. Token authentication failed.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"timestamp\": 827354823232,\r\n  \"status\": 401,\r\n  \"error\": \"Unauthorized\",\r\n  \"message\": \"No message available\",\r\n  \"path\": \"/user/resource\"\r\n}",
+                "schemaId": "60954815b2bd770384f3882f",
+                "typeName": "unAuthorizedRes"
+              }
+            ]
+          },
+          {
+            "statusCode": 405,
+            "description": "Http method not allowed.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          },
+          {
+            "statusCode": 500,
+            "description": "Internal Server Error",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          }
+        ],
+        "displayName": "/users/profile - POST",
+        "method": "POST",
+        "urlTemplate": "/users/profile"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/post-users-profile')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'cc-end-user-management-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'cc-end-user-management-api', '60954815b2bd770384f3882f')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "[concat(parameters('PolicyXMLBaseUrl'), '/cc-end-user-management-api-post-users-profile-operationPolicy.xml')]",
+        "format": "rawxml-link"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/post-users-profile/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'cc-end-user-management-api', 'post-users-profile')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "User Profile"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/post-users-profile/User-Profile')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'cc-end-user-management-api', 'post-users-profile')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "Update user profile details",
+        "request": {
+          "description": "Credentials of the user being logged in the application",
+          "queryParameters": [],
+          "headers": [
+            {
+              "name": "Authorization",
+              "description": "An access token issued by an AIA Authorization server. This will have the format Bearer + {space} + {accessToken}. Example: Bearer KGNsaWVudF9pZDpjbGllbnRfc2VjcmV0KQ==",
+              "type": "string",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "x-cc-trace-id",
+              "description": "Unique transaction request id to enable tracing and auditing",
+              "type": "string",
+              "required": false,
+              "values": []
+            }
+          ],
+          "representations": [
+            {
+              "contentType": "application/json",
+              "sample": "{\r\n  \"userDetails\": {\r\n    \"user\": {\r\n      \"employeeId\": 1234567,\r\n      \"userEmail\": \"abc@tpt.com\",\r\n      \"userMobile\": 1234567890\r\n    },\r\n    \"userName\": \"John Doe\",\r\n    \"firstName\": \"John\",\r\n    \"lastName\": \"Doe\",\r\n    \"userType\": \"Internal or Preview/Premium\",\r\n    \"profilePicture\": \"1@#(&CUFER92327rijefe89542350163438\"\r\n  },\r\n  \"profileRoles\": [\r\n    {\r\n      \"roleType\": \"Requestor\",\r\n      \"roleName\": \"string\",\r\n      \"identityDetails\": {\r\n        \"idType\": \"Passport\",\r\n        \"idNumber\": 0,\r\n        \"expiryDate\": \"2018-09-30T19:00:00Z\",\r\n        \"country\": \"string\",\r\n        \"idDocument\": {\r\n          \"documentName\": \"Document Name\",\r\n          \"documentPicture\": \"1@#(&CUFER92327rijefe89542350163438\"\r\n        }\r\n      },\r\n      \"address\": [\r\n        {\r\n          \"addressType\": \"PRIMARY_ADDRESS\",\r\n          \"addressLine1\": \"40A ORCHARD ROAD\",\r\n          \"addressLine2\": \"#99-99 MACDONALD HOUSE\",\r\n          \"addressLine3\": \"Orchard Avenue 2\",\r\n          \"addressLine4\": \"Street 65\",\r\n          \"city\": \"South Africa\",\r\n          \"province\": \"Durban\",\r\n          \"postalCode\": \"520189\",\r\n          \"countryName\": \"South Africa\"\r\n        }\r\n      ],\r\n      \"companyDetails\": {\r\n        \"companyName\": \"Price Company\",\r\n        \"registrationNumber\": \"string\",\r\n        \"companyDocument\": {\r\n          \"documentName\": \"Document Name\",\r\n          \"documentPicture\": \"1@#(&CUFER92327rijefe89542350163438\"\r\n        },\r\n        \"vatNumber\": \"string\",\r\n        \"vatDoument\": {\r\n          \"documentName\": \"Document Name\",\r\n          \"documentPicture\": \"1@#(&CUFER92327rijefe89542350163438\"\r\n        }\r\n      },\r\n      \"bankDetails\": {\r\n        \"bankName\": \"RMB Bank\",\r\n        \"accountName\": \"string\",\r\n        \"accountNumber\": 0,\r\n        \"branchName\": \"string\",\r\n        \"branchCode\": 0,\r\n        \"bankAddress\": {\r\n          \"addressType\": \"PRIMARY_ADDRESS\",\r\n          \"addressLine1\": \"40A ORCHARD ROAD\",\r\n          \"addressLine2\": \"#99-99 MACDONALD HOUSE\",\r\n          \"addressLine3\": \"Orchard Avenue 2\",\r\n          \"addressLine4\": \"Street 65\",\r\n          \"city\": \"South Africa\",\r\n          \"province\": \"Durban\",\r\n          \"postalCode\": \"520189\",\r\n          \"countryName\": \"South Africa\"\r\n        },\r\n        \"accountDocument\": {\r\n          \"documentName\": \"Document Name\",\r\n          \"documentPicture\": \"1@#(&CUFER92327rijefe89542350163438\"\r\n        }\r\n      }\r\n    }\r\n  ]\r\n}",
+              "schemaId": "60954815b2bd770384f3882f",
+              "typeName": "userProfile"
+            }
+          ]
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "OK",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          },
+          {
+            "statusCode": 400,
+            "description": "Invalid Parameters.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          },
+          {
+            "statusCode": 401,
+            "description": "Unauthorized. Token authentication failed.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"timestamp\": 827354823232,\r\n  \"status\": 401,\r\n  \"error\": \"Unauthorized\",\r\n  \"message\": \"No message available\",\r\n  \"path\": \"/user/resource\"\r\n}",
+                "schemaId": "60954815b2bd770384f3882f",
+                "typeName": "unAuthorizedRes"
+              }
+            ]
+          },
+          {
+            "statusCode": 405,
+            "description": "Http method not allowed.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          },
+          {
+            "statusCode": 500,
+            "description": "Internal Server Error",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          }
+        ],
+        "displayName": "/users/profile - PUT",
+        "method": "PUT",
+        "urlTemplate": "/users/profile"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/put-users-profile')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'cc-end-user-management-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'cc-end-user-management-api', '60954815b2bd770384f3882f')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "User Profile"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/put-users-profile/User-Profile')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'cc-end-user-management-api', 'put-users-profile')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [
+          {
+            "name": "userName",
+            "type": "",
+            "required": true,
+            "values": []
+          }
+        ],
+        "description": "",
+        "request": {
+          "queryParameters": [],
+          "headers": [],
+          "representations": []
+        },
+        "responses": [],
+        "displayName": "/users/profile?userName={userName} - GET",
+        "method": "GET",
+        "urlTemplate": "/users/profile?userName={userName}"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/users-profile-username-username-get')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'cc-end-user-management-api')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "[concat(parameters('PolicyXMLBaseUrl'), '/cc-end-user-management-api-users-profile-username-username-get-operationPolicy.xml')]",
+        "format": "rawxml-link"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/users-profile-username-username-get/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'cc-end-user-management-api', 'users-profile-username-username-get')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "",
+        "request": {
+          "queryParameters": [],
+          "headers": [
+            {
+              "name": "Authorization",
+              "type": "",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "x-cc-trace-id",
+              "type": "",
+              "required": false,
+              "values": []
+            }
+          ],
+          "representations": []
+        },
+        "responses": [],
+        "displayName": "/users/profileActivity",
+        "method": "GET",
+        "urlTemplate": "/users/profileActivity"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/users-profileactivity')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'cc-end-user-management-api')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "Fetch all user roles details",
+        "request": {
+          "queryParameters": [],
+          "headers": [
+            {
+              "name": "Authorization",
+              "description": "An access token issued by an AIA Authorization server. This will have the format Bearer + {space} + {accessToken}. Example: Bearer KGNsaWVudF9pZDpjbGllbnRfc2VjcmV0KQ==",
+              "type": "string",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "x-cc-trace-id",
+              "description": "Unique transaction request id to enable tracing and auditing",
+              "type": "string",
+              "required": false,
+              "values": []
+            }
+          ],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Role response Successful",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "[[\r\n  {\r\n    \"name\": \"Administrator\",\r\n    \"type\": \"Requestor\",\r\n    \"permissions\": [\r\n      {\r\n        \"function\": \"Advertisement Finance\",\r\n        \"method\": \"view, edit or *\"\r\n      }\r\n    ]\r\n  }\r\n]",
+                "schemaId": "60954815b2bd770384f3882f",
+                "typeName": "userRolesArray"
+              }
+            ]
+          },
+          {
+            "statusCode": 400,
+            "description": "Invalid Parameters.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          },
+          {
+            "statusCode": 401,
+            "description": "Unauthorized. Token authentication failed.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"timestamp\": 827354823232,\r\n  \"status\": 401,\r\n  \"error\": \"Unauthorized\",\r\n  \"message\": \"No message available\",\r\n  \"path\": \"/user/resource\"\r\n}",
+                "schemaId": "60954815b2bd770384f3882f",
+                "typeName": "unAuthorizedRes"
+              }
+            ]
+          },
+          {
+            "statusCode": 405,
+            "description": "Http method not allowed.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          },
+          {
+            "statusCode": 500,
+            "description": "Internal Server Error",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          }
+        ],
+        "displayName": "/users/roles - GET",
+        "method": "GET",
+        "urlTemplate": "/users/roles"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/get-users-roles')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'cc-end-user-management-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'cc-end-user-management-api', '60954815b2bd770384f3882f')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "User Roles"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/get-users-roles/User-Roles')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'cc-end-user-management-api', 'get-users-roles')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "Fetch Terms and Conditions",
+        "request": {
+          "queryParameters": [],
+          "headers": [
+            {
+              "name": "Authorization",
+              "description": "An access token issued by an AIA Authorization server. This will have the format Bearer + {space} + {accessToken}. Example: Bearer KGNsaWVudF9pZDpjbGllbnRfc2VjcmV0KQ==",
+              "type": "string",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "x-cc-trace-id",
+              "description": "Unique transaction request id to enable tracing and auditing",
+              "type": "string",
+              "required": false,
+              "values": []
+            }
+          ],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Ok",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"creationTime\": \"string\",\r\n  \"fromDate\": \"string\",\r\n  \"toDate\": \"string\",\r\n  \"termsFile\": \"string\"\r\n}",
+                "schemaId": "60954815b2bd770384f3882f",
+                "typeName": "terms"
+              }
+            ]
+          },
+          {
+            "statusCode": 400,
+            "description": "Invalid Parameters.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          },
+          {
+            "statusCode": 401,
+            "description": "Unauthorized. Token authentication failed.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"timestamp\": 827354823232,\r\n  \"status\": 401,\r\n  \"error\": \"Unauthorized\",\r\n  \"message\": \"No message available\",\r\n  \"path\": \"/user/resource\"\r\n}",
+                "schemaId": "60954815b2bd770384f3882f",
+                "typeName": "unAuthorizedRes"
+              }
+            ]
+          },
+          {
+            "statusCode": 405,
+            "description": "Http method not allowed.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          },
+          {
+            "statusCode": 500,
+            "description": "Internal Server Error",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          }
+        ],
+        "displayName": "/users/termsAndConditions- GET",
+        "method": "GET",
+        "urlTemplate": "/users/termsAndConditions"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/get-users-termsandcondition')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'cc-end-user-management-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'cc-end-user-management-api', '60954815b2bd770384f3882f')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "[concat(parameters('PolicyXMLBaseUrl'), '/cc-end-user-management-api-get-users-termsandcondition-operationPolicy.xml')]",
+        "format": "rawxml-link"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/get-users-termsandcondition/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'cc-end-user-management-api', 'get-users-termsandcondition')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Terms & Conditions"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/get-users-termsandcondition/Terms-Conditions')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'cc-end-user-management-api', 'get-users-termsandcondition')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "Accept Terms and Conditions",
+        "request": {
+          "description": "terms and conditions Approval",
+          "queryParameters": [],
+          "headers": [
+            {
+              "name": "Authorization",
+              "description": "An access token issued by an AIA Authorization server. This will have the format Bearer + {space} + {accessToken}. Example: Bearer KGNsaWVudF9pZDpjbGllbnRfc2VjcmV0KQ==",
+              "type": "string",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "x-cc-trace-id",
+              "description": "Unique transaction request id to enable tracing and auditing",
+              "type": "string",
+              "required": false,
+              "values": []
+            }
+          ],
+          "representations": [
+            {
+              "contentType": "application/json",
+              "sample": "{\r\n  \"user\": \"string\",\r\n  \"tncVersion\": \"string\",\r\n  \"tncConform\": true\r\n}",
+              "schemaId": "60954815b2bd770384f3882f",
+              "typeName": "tncConform"
+            }
+          ]
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "TnC Conform Successful",
+            "headers": [],
+            "representations": []
+          },
+          {
+            "statusCode": 400,
+            "description": "Invalid Parameters.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          },
+          {
+            "statusCode": 401,
+            "description": "Unauthorized. Token authentication failed.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"timestamp\": 827354823232,\r\n  \"status\": 401,\r\n  \"error\": \"Unauthorized\",\r\n  \"message\": \"No message available\",\r\n  \"path\": \"/user/resource\"\r\n}",
+                "schemaId": "60954815b2bd770384f3882f",
+                "typeName": "unAuthorizedRes"
+              }
+            ]
+          },
+          {
+            "statusCode": 405,
+            "description": "Http method not allowed.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          },
+          {
+            "statusCode": 500,
+            "description": "Internal Server Error",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          }
+        ],
+        "displayName": "/users/tncConform - PUT",
+        "method": "PUT",
+        "urlTemplate": "/users/tncConform"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/put-users-tncconform')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'cc-end-user-management-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'cc-end-user-management-api', '60954815b2bd770384f3882f')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "[concat(parameters('PolicyXMLBaseUrl'), '/cc-end-user-management-api-put-users-tncconform-operationPolicy.xml')]",
+        "format": "rawxml-link"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/put-users-tncconform/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'cc-end-user-management-api', 'put-users-tncconform')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Terms & Conditions"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/put-users-tncconform/Terms-Conditions')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'cc-end-user-management-api', 'put-users-tncconform')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "",
+        "request": {
+          "queryParameters": [
+            {
+              "name": "userName",
+              "type": "",
+              "required": false,
+              "values": []
+            }
+          ],
+          "headers": [],
+          "representations": []
+        },
+        "responses": [],
+        "displayName": "/users/userProfile",
+        "method": "GET",
+        "urlTemplate": "/users/userProfile"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/users-userprofile')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'cc-end-user-management-api')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "[concat(parameters('PolicyXMLBaseUrl'), '/cc-end-user-management-api-users-userprofile-operationPolicy.xml')]",
+        "format": "rawxml-link"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/users-userprofile/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'cc-end-user-management-api', 'users-userprofile')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "This API would be used to get details of home page",
+        "request": {
+          "queryParameters": [],
+          "headers": [
+            {
+              "name": "Authorization",
+              "description": "An access token issued by an AIA Authorization server. This will have the format Bearer + {space} + {accessToken}. Example: Bearer KGNsaWVudF9pZDpjbGllbnRfc2VjcmV0KQ==",
+              "type": "string",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "x-cc-trace-id",
+              "description": "Unique transaction request id to enable tracing and auditing",
+              "type": "string",
+              "required": false,
+              "values": []
+            }
+          ],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Ok",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"status\": \"valid\",\r\n  \"userType\": \"Internal or Preview/Premium\",\r\n  \"company\": \"TPT/ Mr.Price\",\r\n  \"lastLogin\": \"Fri Nov 16 11:36:03 PKT 2018\",\r\n  \"creationDate\": \"2018-09-30T19:00:00Z\",\r\n  \"pwdExpiryDate\": \"2018-09-30T19:00:00Z\",\r\n  \"subscriptionExpiryDate\": \"2018-09-30T19:00:00Z\",\r\n  \"numberOfEmployees\": 10,\r\n  \"active\": true,\r\n  \"userDetails\": {\r\n    \"id\": 12345,\r\n    \"isSuperAdmin\": \"true or false\",\r\n    \"newNotifications\": \"true or false\",\r\n    \"userDetails\": {\r\n      \"user\": {\r\n        \"employeeId\": 1234567,\r\n        \"userEmail\": \"abc@tpt.com\",\r\n        \"userMobile\": 1234567890\r\n      },\r\n      \"userName\": \"John Doe\",\r\n      \"firstName\": \"John\",\r\n      \"lastName\": \"Doe\",\r\n      \"userType\": \"Internal or Preview/Premium\",\r\n      \"profilePicture\": \"1@#(&CUFER92327rijefe89542350163438\"\r\n    },\r\n    \"roles\": [\r\n      {\r\n        \"name\": \"Administrator\",\r\n        \"type\": \"Requestor\",\r\n        \"permissions\": [\r\n          {\r\n            \"function\": \"Advertisement Finance\",\r\n            \"method\": \"view, edit or *\"\r\n          }\r\n        ]\r\n      }\r\n    ],\r\n    \"audit\": {\r\n      \"lastUpdated\": \"1542350163438\",\r\n      \"lastUpdatedBy\": \"id of last updated user\",\r\n      \"createdBy\": \"1542350163438\"\r\n    }\r\n  }\r\n}",
+                "schemaId": "60954815b2bd770384f3882f",
+                "typeName": "userLoginSuccess"
+              }
+            ]
+          },
+          {
+            "statusCode": 400,
+            "description": "Invalid Parameters.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          },
+          {
+            "statusCode": 401,
+            "description": "Unauthorized. Token authentication failed.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"timestamp\": 827354823232,\r\n  \"status\": 401,\r\n  \"error\": \"Unauthorized\",\r\n  \"message\": \"No message available\",\r\n  \"path\": \"/user/resource\"\r\n}",
+                "schemaId": "60954815b2bd770384f3882f",
+                "typeName": "unAuthorizedRes"
+              }
+            ]
+          },
+          {
+            "statusCode": 405,
+            "description": "Http method not allowed.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          },
+          {
+            "statusCode": 500,
+            "description": "Internal Server Error",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          }
+        ],
+        "displayName": "Cargo-Connect Home Page",
+        "method": "GET",
+        "urlTemplate": "/users/homePage"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/get-users-homepage')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'cc-end-user-management-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'cc-end-user-management-api', '60954815b2bd770384f3882f')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "HomePage"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/get-users-homepage/HomePage')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'cc-end-user-management-api', 'get-users-homepage')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "CCLogout",
+        "request": {
+          "queryParameters": [
+            {
+              "name": "post_logout_redirect_uri",
+              "type": "",
+              "required": false,
+              "values": []
+            }
+          ],
+          "headers": [],
+          "representations": []
+        },
+        "responses": [],
+        "displayName": "CCLogout",
+        "method": "GET",
+        "urlTemplate": "/ccLogout"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/cclogout')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'cc-end-user-management-api')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "[concat(parameters('PolicyXMLBaseUrl'), '/cc-end-user-management-api-cclogout-operationPolicy.xml')]",
+        "format": "rawxml-link"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/cclogout/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'cc-end-user-management-api', 'cclogout')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "This API would be used to get token to be used in rest of the APIs",
+        "request": {
+          "description": "Credentials of the user being logged in the application",
+          "queryParameters": [],
+          "headers": [
+            {
+              "name": "Authorization",
+              "description": "An access token issued by an AIA Authorization server. This will have the format Bearer + {space} + {accessToken}. Example: Bearer KGNsaWVudF9pZDpjbGllbnRfc2VjcmV0KQ==",
+              "type": "string",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "x-cc-trace-id",
+              "description": "Unique transaction request id to enable tracing and auditing",
+              "type": "string",
+              "required": false,
+              "values": []
+            }
+          ],
+          "representations": [
+            {
+              "contentType": "application/json",
+              "sample": "{\r\n  \"user\": \"abc@xyz.com\",\r\n  \"faqCategory\": \"Login\",\r\n  \"faqQuery\": \"How to reset Login password?\"\r\n}",
+              "schemaId": "60954815b2bd770384f3882f",
+              "typeName": "userQuery"
+            }
+          ]
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Logged in Successfully",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"caseIdReference\": 12345\r\n}",
+                "schemaId": "60954815b2bd770384f3882f",
+                "typeName": "CustomerSupportRaiseQueryPost200ApplicationJsonResponse"
+              }
+            ]
+          },
+          {
+            "statusCode": 400,
+            "description": "Invalid Parameters.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          },
+          {
+            "statusCode": 401,
+            "description": "Unauthorized. Token authentication failed.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"timestamp\": 827354823232,\r\n  \"status\": 401,\r\n  \"error\": \"Unauthorized\",\r\n  \"message\": \"No message available\",\r\n  \"path\": \"/user/resource\"\r\n}",
+                "schemaId": "60954815b2bd770384f3882f",
+                "typeName": "unAuthorizedRes"
+              }
+            ]
+          },
+          {
+            "statusCode": 405,
+            "description": "Http method not allowed.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          },
+          {
+            "statusCode": 500,
+            "description": "Internal Server Error",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          }
+        ],
+        "displayName": "Customer Support Raise Query operation",
+        "method": "POST",
+        "urlTemplate": "/customerSupport/raiseQuery"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/post-customersupport-raisequery')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'cc-end-user-management-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'cc-end-user-management-api', '60954815b2bd770384f3882f')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Customer Support"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/post-customersupport-raisequery/Customer-Support')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'cc-end-user-management-api', 'post-customersupport-raisequery')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "",
+        "request": {
+          "queryParameters": [],
+          "headers": [
+            {
+              "name": "Authorization",
+              "type": "",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "refresh_token",
+              "type": "",
+              "required": false,
+              "values": []
+            }
+          ],
+          "representations": []
+        },
+        "responses": [],
+        "displayName": "InvalidationOfTokens",
+        "method": "GET",
+        "urlTemplate": "/Invalidationoftokens"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/invalidationoftokens')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'cc-end-user-management-api')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "[concat(parameters('PolicyXMLBaseUrl'), '/cc-end-user-management-api-invalidationoftokens-operationPolicy.xml')]",
+        "format": "rawxml-link"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/invalidationoftokens/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'cc-end-user-management-api', 'invalidationoftokens')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "Registration or Sign-up for new User",
+        "request": {
+          "description": "Details of the user for Registration in the application",
+          "queryParameters": [],
+          "headers": [
+            {
+              "name": "Authorization",
+              "description": "An access token issued by an AIA Authorization server. This will have the format Bearer + {space} + {accessToken}. Example: Bearer KGNsaWVudF9pZDpjbGllbnRfc2VjcmV0KQ==",
+              "type": "string",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "x-cc-trace-id",
+              "description": "Unique transaction request id to enable tracing and auditing",
+              "type": "string",
+              "required": false,
+              "values": []
+            }
+          ],
+          "representations": [
+            {
+              "contentType": "application/json",
+              "sample": "{\r\n  \"userInfo\": {\r\n    \"user\": {\r\n      \"employeeId\": 1234567,\r\n      \"userEmail\": \"abc@tpt.com\",\r\n      \"userMobile\": 1234567890\r\n    },\r\n    \"userName\": \"John Doe\",\r\n    \"firstName\": \"John\",\r\n    \"lastName\": \"Doe\",\r\n    \"userType\": \"Internal or Preview/Premium\",\r\n    \"profilePicture\": \"1@#(&CUFER92327rijefe89542350163438\"\r\n  },\r\n  \"passwordInfo\": {\r\n    \"password\": \"Welcome@123\"\r\n  }\r\n}",
+              "schemaId": "60954815b2bd770384f3882f",
+              "typeName": "userRegistration"
+            }
+          ]
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "User Registration Successful",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          },
+          {
+            "statusCode": 400,
+            "description": "Invalid Parameters.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          },
+          {
+            "statusCode": 401,
+            "description": "Unauthorized. Token authentication failed.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"timestamp\": 827354823232,\r\n  \"status\": 401,\r\n  \"error\": \"Unauthorized\",\r\n  \"message\": \"No message available\",\r\n  \"path\": \"/user/resource\"\r\n}",
+                "schemaId": "60954815b2bd770384f3882f",
+                "typeName": "unAuthorizedRes"
+              }
+            ]
+          },
+          {
+            "statusCode": 405,
+            "description": "Http method not allowed.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          },
+          {
+            "statusCode": 500,
+            "description": "Internal Server Error",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          }
+        ],
+        "displayName": "Registration or Sign-up for new User",
+        "method": "POST",
+        "urlTemplate": "/users/register"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/post-users-register')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'cc-end-user-management-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'cc-end-user-management-api', '60954815b2bd770384f3882f')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Registration"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/post-users-register/Registration')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'cc-end-user-management-api', 'post-users-register')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "Reset Password",
+        "request": {
+          "description": "Details of the user for reset password",
+          "queryParameters": [],
+          "headers": [
+            {
+              "name": "Authorization",
+              "description": "An access token issued by an AIA Authorization server. This will have the format Bearer + {space} + {accessToken}. Example: Bearer KGNsaWVudF9pZDpjbGllbnRfc2VjcmV0KQ==",
+              "type": "string",
+              "required": false,
+              "values": []
+            },
+            {
+              "name": "x-cc-trace-id",
+              "description": "Unique transaction request id to enable tracing and auditing",
+              "type": "string",
+              "required": false,
+              "values": []
+            }
+          ],
+          "representations": [
+            {
+              "contentType": "application/json",
+              "sample": "{\r\n  \"user\": {\r\n    \"employeeId\": 1234567,\r\n    \"userEmail\": \"abc@tpt.com\",\r\n    \"userMobile\": 1234567890\r\n  },\r\n  \"password\": {\r\n    \"password\": \"Welcome@123\"\r\n  }\r\n}",
+              "schemaId": "60954815b2bd770384f3882f",
+              "typeName": "passwordReset"
+            }
+          ]
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Password Reset Successful",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          },
+          {
+            "statusCode": 400,
+            "description": "Invalid Parameters.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          },
+          {
+            "statusCode": 401,
+            "description": "Unauthorized. Token authentication failed.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "sample": "{\r\n  \"timestamp\": 827354823232,\r\n  \"status\": 401,\r\n  \"error\": \"Unauthorized\",\r\n  \"message\": \"No message available\",\r\n  \"path\": \"/user/resource\"\r\n}",
+                "schemaId": "60954815b2bd770384f3882f",
+                "typeName": "unAuthorizedRes"
+              }
+            ]
+          },
+          {
+            "statusCode": 405,
+            "description": "Http method not allowed.",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          },
+          {
+            "statusCode": 500,
+            "description": "Internal Server Error",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json"
+              }
+            ]
+          }
+        ],
+        "displayName": "Reset Password",
+        "method": "PUT",
+        "urlTemplate": "/users/resetPassword"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/put-users-resetpassword')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'cc-end-user-management-api')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'cc-end-user-management-api', '60954815b2bd770384f3882f')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Reset Password"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/put-users-resetpassword/Reset-Password')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'cc-end-user-management-api', 'put-users-resetpassword')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "[concat(parameters('PolicyXMLBaseUrl'), '/cc-end-user-management-api-apiPolicy.xml')]",
+        "format": "rawxml-link"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'cc-end-user-management-api')]"
+      ]
+    },
+    {
+      "properties": {
+        "alwaysLog": "allErrors",
+        "loggerId": "/subscriptions/1ef34716-7fcd-4ba4-9bb8-efc8169e841b/resourceGroups/TPT-AKS-RG/providers/Microsoft.ApiManagement/service/tpt-apim-cargo-test/loggers/cargotestapim-insights",
+        "httpCorrelationProtocol": "Legacy",
+        "verbosity": "verbose",
+        "logClientIp": true,
+        "sampling": {
+          "samplingType": "fixed",
+          "percentage": 100.0
+        },
+        "frontend": {
+          "request": {
+            "headers": [
+              "Authorization",
+              "x-cc-trace-id"
+            ],
+            "body": {
+              "bytes": 8192
+            }
+          },
+          "response": {
+            "headers": [
+              "Authorization",
+              "x-cc-trace-id"
+            ],
+            "body": {
+              "bytes": 8192
+            }
+          }
+        },
+        "backend": {
+          "request": {
+            "headers": [
+              "Authorization",
+              "x-cc-trace-id"
+            ],
+            "body": {
+              "bytes": 8192
+            }
+          },
+          "response": {
+            "headers": [
+              "Authorization",
+              "x-cc-trace-id"
+            ],
+            "body": {
+              "bytes": 8192
+            }
+          }
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/applicationinsights')]",
+      "type": "Microsoft.ApiManagement/service/diagnostics",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    },
+    {
+      "properties": {
+        "loggerId": "/subscriptions/1ef34716-7fcd-4ba4-9bb8-efc8169e841b/resourceGroups/TPT-AKS-RG/providers/Microsoft.ApiManagement/service/tpt-apim-cargo-test/loggers/azuremonitor",
+        "logClientIp": true,
+        "sampling": {
+          "samplingType": "fixed",
+          "percentage": 100.0
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/azuremonitor')]",
+      "type": "Microsoft.ApiManagement/service/diagnostics",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+<!--
+    IMPORTANT:
+    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.
+    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.
+    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.
+    - To add a policy, place the cursor at the desired insertion point and select a policy from the sidebar.
+    - To remove a policy, delete the corresponding policy statement from the policy document.
+    - Position the <base> element within a section element to inherit all policies from the corresponding section element in the enclosing scope.
+    - Remove the <base> element to prevent inheriting policies from the corresponding section element in the enclosing scope.
+    - Policies are applied in the order of their appearance, from the top down.
+    - Comments within policy elements are not supported and may disappear. Place your comments between policy elements or at a higher level scope.
+-->
+<policies>
+	<inbound>
+		<cors allow-credentials="true">
+			<allowed-origins>
+				<origin>https://tptcargodevsa.z1.web.core.windows.net/</origin>
+				<origin>https://tptcargodevadminconsole.z1.web.core.windows.net/</origin>
+				<origin>http://localhost:3000/</origin>
+				<origin>https://cargoconnecttest.azureedge.net/</origin>
+				<origin>https://ccadminconsoletest.azureedge.net/</origin>
+			</allowed-origins>
+			<allowed-methods preflight-result-max-age="300">
+				<method>*</method>
+			</allowed-methods>
+			<allowed-headers>
+				<header>*</header>
+			</allowed-headers>
+			<expose-headers>
+				<header>*</header>
+			</expose-headers>
+		</cors>
+		<cache-lookup-value key="@(context.Request.Headers.GetValueOrDefault("Authorization",""))" variable-name="ExpiredAccessToken" />
+		<choose>
+			<when condition="@(context.Variables.GetValueOrDefault("ExpiredAccessToken") != null)">
+				<return-response response-variable-name="responseVariableName">
+					<set-status code="401" reason="Unauthorized" />
+					<set-body template="liquid">
+                    Please Login again
+					</set-body>
+				</return-response>
+			</when>
+			<otherwise>
+				<validate-jwt header-name="Authorization" failed-validation-httpcode="401" failed-validation-error-message="Unauthorised. Invalid Access token.">
+					<openid-config url="https://tptcargotestb2c.b2clogin.com/tptcargotestb2c.onmicrosoft.com/v2.0/.well-known/openid-configuration?p=B2C_1_CC-signUp-signIn" />
+					<audiences>
+						<audience>e3a4d9ce-4ace-4820-b1d6-8e0847f59778</audience>
+					</audiences>
+					<issuers>
+						<issuer>https://tptcargotestb2c.b2clogin.com/52dface5-035b-4505-a9e8-11e34234a517/v2.0/</issuer>
+					</issuers>
+				</validate-jwt>
+			</otherwise>
+		</choose>
+		<set-variable name="emails" value="@(context.Request.Headers["Authorization"].First().Split(' ')[1].AsJwt()?.Claims["emails"].FirstOrDefault())" />
+		<choose>
+			<when condition="@((bool)context.Request.Headers["Authorization"].First().Split(' ')[1].AsJwt()?.Claims.ContainsKey("idp"))">
+				<set-variable name="idp_source" value="@(context.Request.Headers["Authorization"].First().Split(' ')[1].AsJwt()?.Claims["idp"].FirstOrDefault())" />
+			</when>
+			<otherwise>
+				<set-variable name="idp_source" value="Azure Active Directory B2C" />
+			</otherwise>
+		</choose>
+		<set-header name="username" exists-action="override">
+			<value>@((string)context.Variables.GetValueOrDefault("emails"))</value>
+		</set-header>
+		<set-header name="idp-source" exists-action="override">
+			<value>@((string)context.Variables.GetValueOrDefault("idp_source"))</value>
+		</set-header>
+		<set-header name="IP-address" exists-action="override">
+			<value>@((string)context.Request.IpAddress)</value>
+		</set-header>
+	</inbound>
+	<backend>
+        for<forward-request timeout="60" /></backend>
+	<outbound>
+		<base />
+	</outbound>
+	<on-error>
+		<base />
+	</on-error>
+</policies>

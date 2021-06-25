@@ -7,17 +7,13 @@
     },
     "PolicyXMLBaseUrl": {
       "type": "string"
-    },
-    "NamedValues": {
-      "type": "object"
     }
   },
   "resources": [
     {
       "properties": {
         "secret": true,
-        "displayName": "cache-southafricanorth-connection-60936e5bb2bd770384f387a1",
-        "value": "[parameters('NamedValues').Property60936e5bb2bd770384f387a0]"
+        "displayName": "cache-southafricanorth-connection-60936e5bb2bd770384f387a1"
       },
       "name": "[concat(parameters('ApimServiceName'), '/60936e5bb2bd770384f387a0')]",
       "type": "Microsoft.ApiManagement/service/namedValues",
@@ -28,7 +24,7 @@
         "tags": [],
         "secret": false,
         "displayName": "InvalidAppVersions",
-        "value": "[parameters('NamedValues').InvalidAppVersions]"
+        "value": "iOSv1.0.3, androidv1.0.3"
       },
       "name": "[concat(parameters('ApimServiceName'), '/InvalidAppVersions')]",
       "type": "Microsoft.ApiManagement/service/namedValues",
@@ -37,8 +33,7 @@
     {
       "properties": {
         "secret": true,
-        "displayName": "Logger-Credentials--60d41c41b2bd770738d5599f",
-        "value": "[parameters('NamedValues').Property60d41c41b2bd770738d5599e]"
+        "displayName": "Logger-Credentials--60d41c41b2bd770738d5599f"
       },
       "name": "[concat(parameters('ApimServiceName'), '/60d41c41b2bd770738d5599e')]",
       "type": "Microsoft.ApiManagement/service/namedValues",

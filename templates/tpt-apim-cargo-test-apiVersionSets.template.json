@@ -12,10 +12,10 @@
   "resources": [
     {
       "properties": {
-        "displayName": "test-api-suripa",
+        "displayName": "CC End User Management API",
         "versioningScheme": "Segment"
       },
-      "name": "[concat(parameters('ApimServiceName'), '/60d4c3f205ba64027fb10ebd')]",
+      "name": "[concat(parameters('ApimServiceName'), '/6095480f50d5bf825dc495b6')]",
       "type": "Microsoft.ApiManagement/service/apiVersionSets",
       "apiVersion": "2021-01-01-preview"
     }

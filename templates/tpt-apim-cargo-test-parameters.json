@@ -6,17 +6,10 @@
       "value": "tpt-apim-cargo-dev"
     },
     "LinkedTemplatesBaseUrl": {
-      "value": "https://raw.githubusercontent.com/suripa-saha/tptarmrepo/main/templates"
+      "value": "https://tptcargotestsa.blob.core.windows.net/templatessuripa"
     },
     "PolicyXMLBaseUrl": {
-      "value": "https://raw.githubusercontent.com/suripa-saha/tptarmrepo/main/policies"
-    },
-    "NamedValues": {
-      "value": {
-        "Property60936e5bb2bd770384f387a0": null,
-        "InvalidAppVersions": "iOSv1.0.3, androidv1.0.3",
-        "Property60d41c41b2bd770738d5599e": null
-      }
+      "value": "https://tptcargotestsa.blob.core.windows.net/templatessuripa"
     }
   },
   "resources": []

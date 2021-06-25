@@ -1,0 +1,221 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "type": "string"
+    },
+    "PolicyXMLBaseUrl": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "displayName": "Customer Support"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/get-customersupport-faq-categoryid-categoryid/Customer-Support')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    },
+    {
+      "properties": {
+        "displayName": "Customer Support"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/get-customersupport-faqcategories/Customer-Support')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'cc-end-user-management-api', 'get-customersupport-faq-categoryid-categoryid', 'Customer-Support')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Subscription"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/get-subscribe-baseplans/Subscription')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'cc-end-user-management-api', 'get-customersupport-faqcategories', 'Customer-Support')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Subscription"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/get-subscribe-functions/Subscription')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'cc-end-user-management-api', 'get-subscribe-baseplans', 'Subscription')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Subscription"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/get-subscribe-history/Subscription')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'cc-end-user-management-api', 'get-subscribe-functions', 'Subscription')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Subscription"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/post-subscribe-payment/Subscription')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'cc-end-user-management-api', 'get-subscribe-history', 'Subscription')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Subscription"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/post-subscribe-plans/Subscription')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'cc-end-user-management-api', 'post-subscribe-payment', 'Subscription')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "User Roles"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/get-users-username-roles/User-Roles')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'cc-end-user-management-api', 'post-subscribe-plans', 'Subscription')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "User Roles"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/get-users-username-roles-rolename/User-Roles')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'cc-end-user-management-api', 'get-users-username-roles', 'User-Roles')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "User Profile"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/post-users-loginprofile/User-Profile')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'cc-end-user-management-api', 'get-users-username-roles-rolename', 'User-Roles')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "User Profile"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/post-users-profile/User-Profile')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'cc-end-user-management-api', 'post-users-loginprofile', 'User-Profile')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "User Profile"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/put-users-profile/User-Profile')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'cc-end-user-management-api', 'post-users-profile', 'User-Profile')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "User Roles"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/get-users-roles/User-Roles')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'cc-end-user-management-api', 'put-users-profile', 'User-Profile')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Terms & Conditions"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/get-users-termsandcondition/Terms-Conditions')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'cc-end-user-management-api', 'get-users-roles', 'User-Roles')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Terms & Conditions"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/put-users-tncconform/Terms-Conditions')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'cc-end-user-management-api', 'get-users-termsandcondition', 'Terms-Conditions')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "HomePage"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/get-users-homepage/HomePage')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'cc-end-user-management-api', 'put-users-tncconform', 'Terms-Conditions')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Customer Support"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/post-customersupport-raisequery/Customer-Support')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'cc-end-user-management-api', 'get-users-homepage', 'HomePage')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Registration"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/post-users-register/Registration')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'cc-end-user-management-api', 'post-customersupport-raisequery', 'Customer-Support')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Reset Password"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/cc-end-user-management-api/put-users-resetpassword/Reset-Password')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations/tags', parameters('ApimServiceName'), 'cc-end-user-management-api', 'post-users-register', 'Registration')]"
+      ]
+    }
+  ]
+}
