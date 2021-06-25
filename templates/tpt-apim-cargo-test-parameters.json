@@ -6,10 +6,10 @@
       "value": "tpt-apim-cargo-dev"
     },
     "LinkedTemplatesBaseUrl": {
-      "value": "https://tptcargotestsa.blob.core.windows.net/templatessuripa"
+      "value": "https://raw.githubusercontent.com/suripa-saha/tptarmrepo/main/templates"
     },
     "PolicyXMLBaseUrl": {
-      "value": "https://tptcargotestsa.blob.core.windows.net/templatessuripa"
+      "value": "https://raw.githubusercontent.com/suripa-saha/tptarmrepo/main/policies"
     },
     "NamedValues": {
       "value": {
